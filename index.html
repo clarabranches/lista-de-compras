@@ -1,199 +1,298 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Compras</title>
-    <style>
-        :root {
-            --primary-green: #82d95c;
-            --accent-blue: #4fc3f7;
-            --danger-red: #e57373;
-            --bg-color: #ffffff;
-            --text-color: #333;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lista de Compras</title>
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-        }
+<style>
+:root {
+    --green-main: #9CAF3C;
+    --green-light: #C8D48A;
+    --blue: #4FA8F7;
+    --red: #E05A5A;
+}
 
-        /* Cabeçalho igual à imagem */
-        header {
-            background-color: var(--primary-green);
-            color: white;
-            padding: 20px 10px;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
 
-        header h1 {
-            margin: 0;
-            font-size: 1.5rem;
-            text-transform: uppercase;
-        }
+body {
+    background: #eee;
+}
 
-        header .total-container {
-            font-size: 1.8rem;
-            font-weight: bold;
-            margin-top: 5px;
-        }
+/* HEADER */
+header {
+    background: var(--green-main);
+    color: white;
+    padding: 40px 20px 60px;
+    border-bottom-left-radius: 60px;
+    border-bottom-right-radius: 60px;
+}
 
-        main {
-            padding: 15px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-        /* Estrutura da linha de itens */
-        .item-row {
-            display: grid;
-            grid-template-columns: 40px 2fr 1fr 1fr 1fr 40px;
-            gap: 10px;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #eee;
-        }
+.header-text h1 {
+    font-size: 2rem;
+}
 
-        input[type="text"], input[type="number"] {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 1rem;
-            outline: none;
-        }
+.header-text span {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
 
-        input[type="checkbox"] {
-            width: 22px;
-            height: 22px;
-            cursor: pointer;
-        }
+.profile {
+    width: 60px;
+    height: 60px;
+    background: #dce7a3;
+    border-radius: 15px;
+}
 
-        .valor-total-item {
-            font-weight: bold;
-            text-align: center;
-            font-size: 0.9rem;
-        }
+/* MAIN */
+main {
+    margin-top: 20px;
+    padding: 20px;
+}
 
-        /* Botão X para remover */
-        .remove-btn {
-            background-color: var(--danger-red);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            cursor: pointer;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+/* GRID */
+.lista {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
 
-        /* Botão flutuante de adicionar */
-        .add-container {
-            text-align: center;
-            margin-top: 40px;
-            padding-bottom: 40px;
-        }
+/* CARD */
+.card {
+    background: var(--green-light);
+    border-radius: 15px;
+    padding: 15px;
+    padding-bottom: 45px;
+    position: relative;
+}
 
-        .add-btn {
-            background-color: var(--accent-blue);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 65px;
-            height: 65px;
-            font-size: 2.5rem;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            transition: transform 0.2s;
-        }
+/* REMOVE BUTTON */
+.remove-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: var(--red);
+    border: none;
+    color: white;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+}
 
-        .add-btn:active {
-            transform: scale(0.9);
-        }
+/* CARD CONTENT */
+.card-content {
+    display: flex;
+    gap: 10px;
+}
 
-        /* Ajustes para Celular */
-        
-    
-    </style>
+.icon {
+    font-size: 35px;
+}
+
+.card input {
+    border: none;
+    border-radius: 8px;
+    padding: 5px;
+    text-align: center;
+}
+
+.item-name {
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.controls {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 5px;
+}
+
+.controls button {
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.valor input {
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.valor-total {
+    font-weight: bold;
+}
+
+/* ADD BUTTON */
+.add-btn {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: none;
+    background: var(--blue);
+    color: white;
+    font-size: 2.5rem;
+    cursor: pointer;
+}
+
+</style>
 </head>
+
 <body>
 
 <header>
-    <h1>Lista de Compras</h1>
-    <div class="total-container">R$ <span id="soma-total">0,00</span></div>
+    <div class="header-top">
+        <div class="header-text">
+            <h1>Lista de Compras</h1>
+            <span>R$ <span id="soma-total">0,00</span></span>
+        </div>
+        <div class="profile"></div>
+    </div>
 </header>
 
 <main>
-    <div id="lista-container">
-        </div>
-
-    <div class="add-container">
-        <button class="add-btn" onclick="adicionarLinha()">+</button>
-    </div>
+    <div class="lista" id="lista-container"></div>
 </main>
 
+<button class="add-btn" onclick="adicionarLinha()">+</button>
+
 <script>
-    const container = document.getElementById('lista-container');
-    const displayTotalGeral = document.getElementById('soma-total');
+const container = document.getElementById('lista-container');
+const totalDisplay = document.getElementById('soma-total');
 
-    function adicionarLinha() {
-        const div = document.createElement('div');
-        div.className = 'item-row';
-        
-        div.innerHTML = `
-            <input type="checkbox" class="item-check" onchange="atualizarContas()">
-            <input type="text" class="item-name" placeholder="Item">
-            <input type="number" class="item-qtd" value="1" min="1" oninput="atualizarContas()">
-            <input type="number" class="item-price" step="0.01" value="0.00" oninput="atualizarContas()">
-            <span class="valor-total-item">0,00</span>
-            <button class="remove-btn" onclick="removerLinha(this)">X</button>
-        `;
-        
-        container.appendChild(div);
-    }
+/* SALVAR */
+function salvarLista() {
+    const cards = document.querySelectorAll('.card');
+    const lista = [];
 
-    function removerLinha(botao) {
-        botao.parentElement.remove();
-        atualizarContas();
-    }
-
-    function atualizarContas() {
-        let totalGeral = 0;
-        const linhas = document.querySelectorAll('.item-row');
-
-        linhas.forEach(linha => {
-            const isChecked = linha.querySelector('.item-check').checked;
-            const qtd = parseFloat(linha.querySelector('.item-qtd').value) || 0;
-            const preco = parseFloat(linha.querySelector('.item-price').value) || 0;
-            
-            const totalLinha = qtd * preco;
-            
-            // Atualiza o texto do total daquela linha específica
-            linha.querySelector('.valor-total-item').innerText = totalLinha.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-
-            // Se estiver marcado, soma no total do cabeçalho
-            if (isChecked) {
-                totalGeral += totalLinha;
-            }
+    cards.forEach(card => {
+        lista.push({
+            nome: card.querySelector('.item-name').value,
+            qtd: card.querySelector('.item-qtd').value,
+            preco: card.querySelector('.item-price').value,
+            checked: card.querySelector('.item-check').checked
         });
+    });
 
-        displayTotalGeral.innerText = totalGeral.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+    localStorage.setItem('listaCompras', JSON.stringify(lista));
+}
+
+/* CARREGAR */
+function carregarLista() {
+    const listaSalva = localStorage.getItem('listaCompras');
+
+    if (!listaSalva) {
+        adicionarLinha();
+        return;
     }
 
-    // Começa com uma linha vazia
-    window.onload = adicionarLinha;
+    const lista = JSON.parse(listaSalva);
+
+    lista.forEach(item => criarCard(item));
+
+    atualizarContas();
+}
+
+/* CRIAR CARD */
+function criarCard(item = {}) {
+    const div = document.createElement('div');
+    div.className = 'card';
+
+    div.innerHTML = `
+        <div class="card-content">
+            <div class="icon">🍅</div>
+
+            <div style="width:100%">
+                <input type="text" class="item-name" placeholder="Item" value="${item.nome || ''}">
+
+                <div class="controls">
+                    <button onclick="alterarQtd(this, -1)">-</button>
+                    <input type="number" class="item-qtd" value="${item.qtd || 1}" min="1" oninput="atualizarContas()">
+                    <button onclick="alterarQtd(this, 1)">+</button>
+                </div>
+
+                <div class="valor">
+                    <input type="number" class="item-price" placeholder="Valor" value="${item.preco || ''}" step="0.01" oninput="atualizarContas()">
+                </div>
+
+                <div>
+                    <input type="checkbox" class="item-check" ${item.checked ? 'checked' : ''} onchange="atualizarContas()">
+                    <span class="valor-total">0,00</span>
+                </div>
+            </div>
+        </div>
+
+        <button class="remove-btn" onclick="removerLinha(this)">×</button>
+    `;
+
+    container.appendChild(div);
+}
+
+/* ADD */
+function adicionarLinha() {
+    criarCard();
+    salvarLista();
+}
+
+/* REMOVE */
+function removerLinha(btn) {
+    btn.parentElement.remove();
+    atualizarContas();
+}
+
+/* ALTERAR QTD */
+function alterarQtd(btn, valor) {
+    const input = btn.parentElement.querySelector('.item-qtd');
+    let qtd = parseInt(input.value) || 1;
+    qtd += valor;
+    if (qtd < 1) qtd = 1;
+    input.value = qtd;
+    atualizarContas();
+}
+
+/* CALCULAR */
+function atualizarContas() {
+    let total = 0;
+
+    document.querySelectorAll('.card').forEach(card => {
+        const qtd = parseFloat(card.querySelector('.item-qtd').value) || 0;
+        const preco = parseFloat(card.querySelector('.item-price').value) || 0;
+        const check = card.querySelector('.item-check').checked;
+
+        const totalItem = qtd * preco;
+
+        card.querySelector('.valor-total').innerText =
+            totalItem.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+
+        if (check) total += totalItem;
+    });
+
+    totalDisplay.innerText =
+        total.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+
+    salvarLista();
+}
+
+/* INICIAR */
+window.onload = carregarLista;
+
 </script>
 
 </body>
 </html>
-
