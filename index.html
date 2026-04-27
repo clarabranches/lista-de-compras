@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Compras</title>
+    <style>
+        :root {
+            --primary-green: #82d95c;
+            --accent-blue: #4fc3f7;
+            --danger-red: #e57373;
+            --bg-color: #ffffff;
+            --text-color: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        /* Cabeçalho igual à imagem */
+        header {
+            background-color: var(--primary-green);
+            color: white;
+            padding: 20px 10px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+        }
+
+        header .total-container {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        main {
+            padding: 15px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Estrutura da linha de itens */
+        .item-row {
+            display: grid;
+            grid-template-columns: 40px 2fr 1fr 1fr 1fr 40px;
+            gap: 10px;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+        }
+
+        .valor-total-item {
+            font-weight: bold;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        /* Botão X para remover */
+        .remove-btn {
+            background-color: var(--danger-red);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Botão flutuante de adicionar */
+        .add-container {
+            text-align: center;
+            margin-top: 40px;
+            padding-bottom: 40px;
+        }
+
+        .add-btn {
+            background-color: var(--accent-blue);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 65px;
+            height: 65px;
+            font-size: 2.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+        }
+
+        .add-btn:active {
+            transform: scale(0.9);
+        }
+
+        /* Ajustes para Celular */
+        
+    
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Lista de Compras</h1>
+    <div class="total-container">R$ <span id="soma-total">0,00</span></div>
+</header>
+
+<main>
+    <div id="lista-container">
+        </div>
+
+    <div class="add-container">
+        <button class="add-btn" onclick="adicionarLinha()">+</button>
+    </div>
+</main>
+
+<script>
+    const container = document.getElementById('lista-container');
+    const displayTotalGeral = document.getElementById('soma-total');
+
+    function adicionarLinha() {
+        const div = document.createElement('div');
+        div.className = 'item-row';
+        
+        div.innerHTML = `
+            <input type="checkbox" class="item-check" onchange="atualizarContas()">
+            <input type="text" class="item-name" placeholder="Item">
+            <input type="number" class="item-qtd" value="1" min="1" oninput="atualizarContas()">
+            <input type="number" class="item-price" step="0.01" value="0.00" oninput="atualizarContas()">
+            <span class="valor-total-item">0,00</span>
+            <button class="remove-btn" onclick="removerLinha(this)">X</button>
+        `;
+        
+        container.appendChild(div);
+    }
+
+    function removerLinha(botao) {
+        botao.parentElement.remove();
+        atualizarContas();
+    }
+
+    function atualizarContas() {
+        let totalGeral = 0;
+        const linhas = document.querySelectorAll('.item-row');
+
+        linhas.forEach(linha => {
+            const isChecked = linha.querySelector('.item-check').checked;
+            const qtd = parseFloat(linha.querySelector('.item-qtd').value) || 0;
+            const preco = parseFloat(linha.querySelector('.item-price').value) || 0;
+            
+            const totalLinha = qtd * preco;
+            
+            // Atualiza o texto do total daquela linha específica
+            linha.querySelector('.valor-total-item').innerText = totalLinha.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+
+            // Se estiver marcado, soma no total do cabeçalho
+            if (isChecked) {
+                totalGeral += totalLinha;
+            }
+        });
+
+        displayTotalGeral.innerText = totalGeral.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+    }
+
+    // Começa com uma linha vazia
+    window.onload = adicionarLinha;
+</script>
+
+</body>
+</html>
+
