@@ -2,7 +2,10 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- VIEWPORT CORRIGIDO -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
 <title>Lista de Compras</title>
 
 <style>
@@ -13,6 +16,7 @@
     --red: #E05A5A;
 }
 
+/* RESET */
 * {
     margin: 0;
     padding: 0;
@@ -77,7 +81,7 @@ main {
     position: relative;
 }
 
-/* REMOVE BUTTON */
+/* BOTÃO REMOVER */
 .remove-btn {
     position: absolute;
     bottom: 10px;
@@ -91,21 +95,29 @@ main {
     cursor: pointer;
 }
 
-/* CARD CONTENT */
+/* CONTEÚDO */
 .card-content {
     display: flex;
     gap: 10px;
+    align-items: flex-start;
 }
 
 .icon {
-    font-size: 35px;
+    font-size: 30px;
 }
 
+/* INPUTS */
 .card input {
     border: none;
     border-radius: 8px;
-    padding: 5px;
+    padding: 6px;
     text-align: center;
+    font-size: 16px; /* 🔥 evita zoom */
+}
+
+/* ORGANIZAÇÃO */
+.card-content > div:last-child {
+    width: 100%;
 }
 
 .item-name {
@@ -116,6 +128,7 @@ main {
 .controls {
     display: flex;
     gap: 5px;
+    flex-wrap: wrap;
     margin-bottom: 5px;
 }
 
@@ -124,6 +137,12 @@ main {
     padding: 5px 10px;
     border-radius: 5px;
     cursor: pointer;
+    flex: 1;
+}
+
+.controls input {
+    flex: 2;
+    width: 60px;
 }
 
 .valor input {
@@ -135,22 +154,52 @@ main {
     font-weight: bold;
 }
 
-/* ADD BUTTON */
+/* BOTÃO ADD */
 .add-btn {
     position: fixed;
-    bottom: 30px;
+    bottom: 25px;
     left: 50%;
     transform: translateX(-50%);
-    width: 70px;
-    height: 70px;
+    width: 65px;
+    height: 65px;
     border-radius: 50%;
     border: none;
     background: var(--blue);
     color: white;
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
+/* MOBILE */
+@media (max-width: 600px) {
+
+    header {
+        padding: 30px 15px 50px;
+    }
+
+    .header-text h1 {
+        font-size: 1.5rem;
+    }
+
+    .header-text span {
+        font-size: 1.2rem;
+    }
+
+    .lista {
+        grid-template-columns: 1fr;
+    }
+
+    .icon {
+        font-size: 25px;
+    }
+
+    .add-btn {
+        width: 60px;
+        height: 60px;
+        font-size: 2rem;
+    }
+}
 </style>
 </head>
 
@@ -216,9 +265,9 @@ function criarCard(item = {}) {
 
     div.innerHTML = `
         <div class="card-content">
-            <div class="icon">🍅</div>
+            <div class="icon">🛒</div>
 
-            <div style="width:100%">
+            <div>
                 <input type="text" class="item-name" placeholder="Item" value="${item.nome || ''}">
 
                 <div class="controls">
@@ -244,13 +293,13 @@ function criarCard(item = {}) {
     container.appendChild(div);
 }
 
-/* ADD */
+/* ADICIONAR */
 function adicionarLinha() {
     criarCard();
     salvarLista();
 }
 
-/* REMOVE */
+/* REMOVER */
 function removerLinha(btn) {
     btn.parentElement.remove();
     atualizarContas();
